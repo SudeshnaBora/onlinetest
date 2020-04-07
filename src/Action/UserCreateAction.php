@@ -21,7 +21,7 @@ final class UserCreateAction
         // Collect input from the HTTP request
         $data = (array)$request->getParsedBody();
         
-        $mapper = new JsonMapper();
+        $mapper = new \JsonMapper();
         $userDataArray = $mapper->mapArray($data, array(), 'UserCreateData');
 
         // Mapping (should be done in a mapper class)
