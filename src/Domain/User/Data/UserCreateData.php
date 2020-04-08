@@ -10,4 +10,15 @@ class UserCreateData
     /** @var age */
     public $age;
 
+    function __construct(array $data) {
+        foreach($data as $key => $val) {
+            if(property_exists(__CLASS__,$key)) {
+                $this->$key = $val;
+            }
+            else {
+                throw new Exception("Error Processing Request", 1);
+            }
+        }
+    }
+
 }

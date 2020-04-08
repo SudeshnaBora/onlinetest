@@ -3,7 +3,8 @@
 namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\UserCreateData;
-use PDO;
+use Illuminate\Database\Connection;
+
 
 /**
  * Repository.
@@ -11,16 +12,16 @@ use PDO;
 class UserCreatorRepository
 {
     /**
-     * @var PDO The database connection
+     * @var Connection The database connection
      */
     private $connection;
 
     /**
      * Constructor.
      *
-     * @param PDO $connection The database connection
+     * @param Connection  $connection The database connection
      */
-    public function __construct(PDO $connection)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
@@ -34,17 +35,9 @@ class UserCreatorRepository
      */
     public function insertUser(UserCreateData $user): int
     {
-        $row = [
-            'username' => $user->username,
-            'age' => $user->age
-        ];
+        $row = json_decode(json_encode($user), true);
+        $this->connection->table('users')->insert($row);
 
-        $sql = "INSERT INTO users SET 
-                username=:username, 
-                age=:age";
-
-        $this->connection->prepare($sql)->execute($row);
-
-        return (int)$this->connection->lastInsertId();
+        return 1;
     }
 }

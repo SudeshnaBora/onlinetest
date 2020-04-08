@@ -5,6 +5,9 @@ use Selective\Config\Configuration;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ErrorMiddleware;
+use Illuminate\Container\Container as IlluminateContainer;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Connectors\ConnectionFactory;
 
 return [
     Configuration::class => function () {
@@ -35,18 +38,20 @@ return [
         );
     },
 
+    // Database connection
+    Connection::class => function (ContainerInterface $container) {
+        $factory = new ConnectionFactory(new IlluminateContainer());
+
+        $connection = $factory->make($container->get(Configuration::class)->getArray('db'));
+
+        // Disable the query log to prevent memory issues
+        $connection->disableQueryLog();
+
+        return $connection;
+    },
+
     PDO::class => function (ContainerInterface $container) {
-        $settings = $container->get(Configuration::class)->getArray('db');
-    
-        $host = $settings['host'];
-        $dbname = $settings['database'];
-        $username = $settings['username'];
-        $password = $settings['password'];
-        $charset = $settings['charset'];
-        $flags = $settings['flags'];
-        $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
-    
-        return new PDO($dsn, $username, $password, $flags);
+        return $container->get(Connection::class)->getPdo();
     },
 
 ];

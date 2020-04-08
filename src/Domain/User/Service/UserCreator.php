@@ -29,17 +29,19 @@ final class UserCreator
     /**
      * Create a new user.
      *
-     * @param UserCreateData $user The user data
+     * @param UserCreateData[] $user The user data
      *
      * @throws InvalidArgumentException
      *
      * @return int The new user ID
      */
-    public function createUser(UserCreateData $user): int
+    public function createUser(array $users): int
     {
         // Validation
-        if (empty($user->username)) {
-            throw new InvalidArgumentException('Username required');
+        foreach($users as $user){
+            if (empty($user->username)) {
+                throw new InvalidArgumentException('Username required');
+            }
         }
 
         // Insert user

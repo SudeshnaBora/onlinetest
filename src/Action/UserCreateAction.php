@@ -19,18 +19,23 @@ final class UserCreateAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         // Collect input from the HTTP request
-        $data = (array)$request->getParsedBody();
-        
-        $mapper = new \JsonMapper();
-        $userDataArray = $mapper->mapArray($data, array(), 'UserCreateData');
+        $data = $request->getParsedBody();
 
         // Mapping (should be done in a mapper class)
-        $user = new UserCreateData();
-        $user->username = $data['username'];
-        $user->age = $data['age'];
+        $userDataArray = [];
+        foreach($data as $requestKey => $requestValue) {
+            if(is_array($requestValue)){
+                $userData = new UserCreateData($requestValue);
+                array_push($userDataArray, $userData);
+            }
+            else {
+                throw new Exception("Error Processing Request", 1);
+                
+            }
+        }
 
         // Invoke the Domain with inputs and retain the result
-        $userId = $this->userCreator->createUser($user);
+        $userId = $this->userCreator->createUser($userDataArray);
 
         // Transform the result into the JSON representation
         $result = [
