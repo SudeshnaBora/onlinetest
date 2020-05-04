@@ -6,5 +6,7 @@ use Slim\App;
 
 return function (App $app) {
 
-    $app->post('/users', \App\Action\UserCreateAction::class);
+    $app->post('/user', \App\Action\UserCreateAction::class);
+
+    $app->post('/data', \App\Action\OnlineTest::class);
 };
