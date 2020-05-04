@@ -45,7 +45,7 @@ final class UserCreator
         }
 
         // Insert user
-        $userId = $this->repository->insertUser($user);
+        $userId = $this->repository->insertUser($users);
 
         // Logging here: User created successfully
 

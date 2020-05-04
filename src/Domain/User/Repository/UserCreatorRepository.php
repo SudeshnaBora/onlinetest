@@ -29,14 +29,14 @@ class UserCreatorRepository
     /**
      * Insert user row.
      *
-     * @param UserCreateData $user The user
+     * @param array $user The user
      *
      * @return int The new ID
      */
-    public function insertUser(UserCreateData $user): int
+    public function insertUser(array $users): int
     {
-        $row = json_decode(json_encode($user), true);
-        $this->connection->table('users')->insert($row);
+        $rows = json_decode(json_encode($users), true);
+        $this->connection->table('users')->insert($rows);
 
         return 1;
     }

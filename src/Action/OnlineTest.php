@@ -25,7 +25,7 @@ final class OnlineTest
         $onlineTestResults = [];
         foreach($data as $requestKey => $requestValue) {
             if(is_array($requestValue)){
-                $result = new OnlineTestData($requestValue[0]);
+                $result = new OnlineTestData($requestValue);
                 array_push($onlineTestResults, $result);
             }
             else {
@@ -35,7 +35,7 @@ final class OnlineTest
         }
 
         // Invoke the Domain with inputs and retain the result
-        $responseString = $this->onlineTest->storeData($result);
+        $responseString = $this->onlineTest->storeData($onlineTestResults);
 
         // Transform the result into the JSON representation
         $result = [
