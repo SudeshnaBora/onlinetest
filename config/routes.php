@@ -9,4 +9,5 @@ return function (App $app) {
     $app->post('/user', \App\Action\UserCreateAction::class);
 
     $app->post('/data', \App\Action\OnlineTest::class);
+
 };

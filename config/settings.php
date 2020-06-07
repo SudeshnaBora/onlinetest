@@ -33,10 +33,10 @@ $settings['error_handler_middleware'] = [
 // Database settings
 $settings['db'] = [
     'driver' => 'mysql',
-    'host' => 'localhost',
+    'host' => '172.17.0.222',
     'username' => 'root',
-    'database' => 'user',
-    'password' => '',
+    'database' => 'test',
+    'password' => 'test',
     'charset' => 'utf8mb4',
     'collation' => 'utf8mb4_unicode_ci',
     'flags' => [
