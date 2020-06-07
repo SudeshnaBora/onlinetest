@@ -39,8 +39,9 @@ final class OnlineTestDataCreator
     {
         // Validation
         foreach($results as $result){
-            if (empty($result->participantId)) {
-                throw new InvalidArgumentException('participantId required');
+            if (empty($result->subject)) {
+                throw new InvalidArgumentException('
+                    subject required');
             }
         }
 
