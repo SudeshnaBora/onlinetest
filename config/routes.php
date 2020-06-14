@@ -7,6 +7,7 @@ use Slim\App;
 return function (App $app) {
 
     $app->post('/data', '\App\Action\OnlineTest:insertData');
+    $app->post('/user', '\App\Action\OnlineTest:insertUserDetails');
 
     $app->get('/message', '\App\Action\OnlineTest:giveMessage');
 };
