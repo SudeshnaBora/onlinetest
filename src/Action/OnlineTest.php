@@ -16,7 +16,7 @@ final class OnlineTest
         $this->onlineTest = $onlineTest;
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function insertData(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         // Collect input from the HTTP request
         $data = $request->getParsedBody();
@@ -46,5 +46,17 @@ final class OnlineTest
         $response->getBody()->write((string)json_encode($result));
 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function giveMessage(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+
+        $result = [
+            'Status' => 'Hello World'
+        ];
+
+        $response->getBody()->write((string)json_encode($result));
+
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 }
