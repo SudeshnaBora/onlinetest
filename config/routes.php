@@ -9,4 +9,6 @@ return function (App $app) {
     $app->post('/data', '\App\Action\OnlineTest:insertData');
 
     $app->get('/message', '\App\Action\OnlineTest:giveMessage');
+
+    $app->post('/user', '\App\Action\OnlineTest:insertUserDetails');
 };

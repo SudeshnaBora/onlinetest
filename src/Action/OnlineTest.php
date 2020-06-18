@@ -4,16 +4,20 @@ namespace App\Action;
 
 use App\Domain\OnlineTest\Data\OnlineTestData;
 use App\Domain\OnlineTest\Service\OnlineTestDataCreator;
+use App\Domain\OnlineTest\Data\UserData;
+use App\Domain\OnlineTest\Service\UserDataCreator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class OnlineTest
 {
     private $onlineTest;
+    private $userData;
 
-    public function __construct(OnlineTestDataCreator $onlineTest)
+    public function __construct(OnlineTestDataCreator $onlineTest,UserDataCreator $userData)
     {
         $this->onlineTest = $onlineTest;
+        $this->userData = $userData;
     }
 
     public function insertData(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -52,11 +56,33 @@ final class OnlineTest
     {
 
         $result = [
-            'Status' => 'Hello World'
+            'Message' => 'Hello World'
         ];
 
         $response->getBody()->write((string)json_encode($result));
 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+    }
+
+    public function insertUserDetails(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        // Collect input from the HTTP request
+        $data = $request->getParsedBody();
+
+        // Mapping (should be done in a mapper class)
+        $userData = new UserData($data);
+
+        // Invoke the Domain with inputs and retain the result
+        $responseString = $this->userData->storeData($userData);
+
+        // Transform the result into the JSON representation
+        $result = [
+            'Status' => $responseString
+        ];
+
+        // Build the HTTP response
+        $response->getBody()->write((string)json_encode($result));
+
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 }
