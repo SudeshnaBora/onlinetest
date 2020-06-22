@@ -37,12 +37,5 @@ class OnlineTestDataCreatorRepository
     {
         $row = json_decode(json_encode($onlineTestResults), true);
         $this->connection->table('online_test')->insert($row);
-
-        /**
-         * 
-         *         foreach( $your_data as $row ) {
-         *   $this->connection->table('online_test')->insert($your_data);
-         * }
-         */
     }
 }
